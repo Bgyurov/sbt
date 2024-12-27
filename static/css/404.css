@@ -1,0 +1,47 @@
+#errorPage {
+  width: 100%;
+  height: 100vh;
+  background-color: #D81E5B;
+  background-position: center;
+  background-size: cover;
+}
+
+.not-found-page-container {
+    position: absolute;
+    margin-top: 13%;
+    margin-left: 37%;
+}
+
+.not-found-page-container p a {
+  color: #D81E5B;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: center;
+
+}
+
+.not-found-page-container p a:hover {
+  text-decoration: underline;
+}
+.not-found-page-container h1 {
+  font-size: 40px;
+  margin-bottom: auto;
+  text-align: center;
+}
+
+.not-found-page-container h2 {
+  font-size: 20px;
+  
+  text-align: center;
+
+}
+.not-found-page-container p {
+  font-size: 20px;
+  
+  text-align: center;
+
+}
+
+.not-found-page-container > p {
+  margin-top: 1%;
+}
