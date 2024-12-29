@@ -1,12 +1,21 @@
-const mongoose = require('mongoose')
+require('dotenv').config();
 
+const mongoose = require('mongoose');
 
+async function initDatabase() {
+    mongoose.set('strictQuery', false);
+    
+    // Използване на променлива на средата за връзка с базата данни
+        const dbUri = process.env.MONGOD_CONNECT_URI
+     // Задаване на фалбек, ако променливата на средата не е дефинирана
+     try{
+         await mongoose.connect(dbUri); 
 
-async function initDatabase(){
-    mongoose.set('strictQuery',false)
-    await mongoose.connect('mongodb://127.0.0.1:27017/sbt') 
+         console.log('DB connected');
+     } catch (error){
+         console.log('Error: ', error);
+     }
 
-    console.log('DB connected');
 }
 
-module.exports = initDatabase
+module.exports = initDatabase;

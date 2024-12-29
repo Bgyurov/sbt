@@ -1,9 +1,10 @@
+
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const router = require('./routes')
 const setupViewEngine = require('./config/viewEngine')
 const initDatabase = require('./config/dataBaseInit')
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT 
 const app = express()
 setupViewEngine(app)
 
