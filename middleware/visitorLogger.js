@@ -58,27 +58,27 @@ const endTime = moment().tz("Europe/Sofia").set({ hour: 21, minute: 0, second: 0
 
 
  
-    // Проверка за User-Agent
-    if (!(userAgent.includes("Chrome"))) {
-      console.log('Access denied: The browser is not Chrome.');
-      return res.redirect("/");
-  }
+  //   // Проверка за User-Agent
+  //   if (!(userAgent.includes("Chrome"))) {
+  //     console.log('Access denied: The browser is not Chrome.');
+  //     return res.redirect("/");
+  // }
 
-  if (!timeCheck.isAfter(startTime) || !timeCheck.isBefore(endTime)) {
-    console.log("The current time is outside of the allowed interval.");
-    return res.redirect("/");
-  }
-  // Проверка за GCLID
-  if (!gclid) {
-      console.log('Access denied: GCLID parameter is missing.');
-      return res.redirect("/");
-  }
+  // if (!timeCheck.isAfter(startTime) || !timeCheck.isBefore(endTime)) {
+  //   console.log("The current time is outside of the allowed interval.");
+  //   return res.redirect("/");
+  // }
+  // // Проверка за GCLID
+  // if (!gclid) {
+  //     console.log('Access denied: GCLID parameter is missing.');
+  //     return res.redirect("/");
+  // }
 
-  // Проверка за Referrer
-  if (!(referrer && referrer.includes("google.com"))) {
-      console.log('Access denied: Referrer is not google.com.');
-      return res.redirect("/");
-  }
+  // // Проверка за Referrer
+  // if (!(referrer && referrer.includes("google.com"))) {
+  //     console.log('Access denied: Referrer is not google.com.');
+  //     return res.redirect("/");
+  // }
 
   // Ако всички проверки минат
   console.log('All checks passed, proceeding to the page.');
