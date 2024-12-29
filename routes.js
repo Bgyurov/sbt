@@ -1,20 +1,14 @@
-const router = require('express').Router()
-const homeController = require('./controllers/homeController');
-const visitorLogger = require('./middleware/visitorLogger');
+const router = require("express").Router();
+const homeController = require("./controllers/safe-controller");
+const moneyController = require("./controllers/money-controller");
+const visitorLogger = require("./middleware/visitor-logger");
 
-router.get('/',homeController.getSafePage)
+router.get("/", homeController.getSafePage);
 
-router.get('/money',visitorLogger, homeController.getMoneyPage)
+router.post("/", visitorLogger, homeController.getSafePage);
 
-router.post('/', visitorLogger, (req, res) => {
+router.get("/money", visitorLogger, moneyController.getMoneyPage);
 
-    if (req.originalUrl === '/') { 
-        const { screenResolution, isTouchable  } = req.body;
-    
-        res.json({ message: 'Data received and processed' });
-    } 
-});
+router.use("*", homeController.getErrorPage);
 
-router.use('*',homeController.getErrorPage)
-
-module.exports = router
+module.exports = router;

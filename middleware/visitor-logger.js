@@ -1,4 +1,4 @@
-const Visitor = require("../models/Visitor");
+const Visitor = require("../models/visitor");
 const UAParser = require("ua-parser-js");
 const uuidv4 = require("uuid").v4;
 const moment = require("moment-timezone");
@@ -8,7 +8,6 @@ const visitorLogger = async (req, res, next) => {
   const ua = req.headers["user-agent"];
   const result = parser.setUA(ua).getResult();
   const { isTouchable, isMobileResolution, isHeadless } = req.body;
-
 
   if (req.originalUrl === "/favicon.ico") {
     return next();
@@ -45,36 +44,39 @@ const visitorLogger = async (req, res, next) => {
   }
 
   if (isTouchable || isMobileResolution || isHeadless) {
-
-    console.log('Access denied: The visitor is using a mobile device or a headless browser.');
+    console.log(
+      "Access denied: The visitor is using a mobile device or a headless browser."
+    );
     return res.redirect("/");
-}
+  }
 
   console.log(existingVisitor ? "Returning visitor." : "New visitor added.");
-  const timeCheck = moment().tz("Europe/Sofia")
-  const startTime = moment().tz("Europe/Sofia").set({ hour: 14, minute: 0, second: 0 });
-const endTime = moment().tz("Europe/Sofia").set({ hour: 18, minute: 0, second: 0 }); 
+  const timeCheck = moment().tz("Europe/Sofia");
+  const startTime = moment()
+    .tz("Europe/Sofia")
+    .set({ hour: 14, minute: 0, second: 0 });
+  const endTime = moment()
+    .tz("Europe/Sofia")
+    .set({ hour: 18, minute: 0, second: 0 });
 
-  const gclid = req.query.gclid;  
-  
-  if (result.browser.name !== 'Chrome') {
-    console.log('Access denied: The browser is not Chrome.');
+  const gclid = req.query.gclid;
+
+  if (result.browser.name !== "Chrome") {
+    console.log("Access denied: The browser is not Chrome.");
     return res.redirect("/");
-}
+  }
 
   if (!timeCheck.isAfter(startTime) || !timeCheck.isBefore(endTime)) {
     console.log("The current time is outside of the allowed interval.");
     return res.redirect("/");
   }
   if (!gclid) {
-      console.log('Access denied: GCLID parameter is missing.');
-      return res.redirect("/");
+    console.log("Access denied: GCLID parameter is missing.");
+    return res.redirect("/");
   }
 
-    
-  console.log('All checks passed, proceeding to the page.');
+  console.log("All checks passed, proceeding to the page.");
   next();
 };
-
 
 module.exports = visitorLogger;
