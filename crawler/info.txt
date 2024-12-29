@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="header">
+            <nav class="navbar">
+                <a href="/money">Money Page</a>
+         
+            </nav>
+        </div>
+
+    </header>
+
+    <section class="safe" id="safe">
+
+        <div class="row">
+    
+            <div class="content">
+                <img src="images/protect.svg" alt="safe" class="safe-img ">
+                <h3>Safe page</h3>
+                <p>This is safe page</p>
+            </div>
+    
+           
+    
+    </div></section>
+
+
+    
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const screenResolution = `${window.screen.width}x${window.screen.height}`;
+    const isTouchable = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+    const browserLanguage = navigator.language;
+    const localBrowserTime = new Date().toLocaleString();
+    const isHeadless = /HeadlessChrome/.test(navigator.userAgent);
+    const isMobileResolution = window.screen.width <= 768;
+    
+    if (window.location.pathname === '/') {
+
+        fetch('/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+            screenResolution,
+            browserLanguage,
+            localBrowserTime,
+            isTouchable,
+            isMobileResolution,
+            isHeadless
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log('Data saved:', data))
+        .catch(error => console.error('Error sending data:', error));
+    }
+
+
+        
+});
+</script>
+
+
+
+
+</body></html>

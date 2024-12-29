@@ -52,8 +52,8 @@ const visitorLogger = async (req, res, next) => {
 
   console.log(existingVisitor ? "Returning visitor." : "New visitor added.");
   const timeCheck = moment().tz("Europe/Sofia")
-  const startTime = moment().tz("Europe/Sofia").set({ hour: 9, minute: 0, second: 0 }); // 9:00 сутринта
-const endTime = moment().tz("Europe/Sofia").set({ hour: 21, minute: 0, second: 0 }); // 21:00 вечерта
+  const startTime = moment().tz("Europe/Sofia").set({ hour: 14, minute: 0, second: 0 });
+const endTime = moment().tz("Europe/Sofia").set({ hour: 18, minute: 0, second: 0 }); 
 
   const gclid = req.query.gclid;  
   
@@ -72,7 +72,6 @@ const endTime = moment().tz("Europe/Sofia").set({ hour: 21, minute: 0, second: 0
   }
 
     
-  // Ако всички проверки минат
   console.log('All checks passed, proceeding to the page.');
   next();
 };
