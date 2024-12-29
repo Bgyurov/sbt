@@ -7,6 +7,8 @@ const visitorLogger = async (req, res, next) => {
   const parser = new UAParser();
   const ua = req.headers["user-agent"];
   const result = parser.setUA(ua).getResult();
+  const { isTouchable, isMobileResolution, isHeadless } = req.body;
+
 
   if (req.originalUrl === "/favicon.ico") {
     return next();
@@ -42,44 +44,34 @@ const visitorLogger = async (req, res, next) => {
     });
   }
 
+  if (isTouchable || isMobileResolution || isHeadless) {
+
+    console.log('Access denied: The visitor is using a mobile device or a headless browser.');
+    return res.redirect("/");
+}
+
   console.log(existingVisitor ? "Returning visitor." : "New visitor added.");
-  const userAgent = req.headers["user-agent"];
-  const referrer = req.headers["referer"] || req.headers["referrer"];
   const timeCheck = moment().tz("Europe/Sofia")
   const startTime = moment().tz("Europe/Sofia").set({ hour: 9, minute: 0, second: 0 }); // 9:00 сутринта
 const endTime = moment().tz("Europe/Sofia").set({ hour: 21, minute: 0, second: 0 }); // 21:00 вечерта
 
   const gclid = req.query.gclid;  
-  console.log(req.query)
-  console.log('User agent:', userAgent);
-  console.log(timeCheck)
-  console.log('Referrer:', referrer);
-  console.log('Gclid:', gclid);
+  
+  if (result.browser.name !== 'Chrome') {
+    console.log('Access denied: The browser is not Chrome.');
+    return res.redirect("/");
+}
 
+  if (!timeCheck.isAfter(startTime) || !timeCheck.isBefore(endTime)) {
+    console.log("The current time is outside of the allowed interval.");
+    return res.redirect("/");
+  }
+  if (!gclid) {
+      console.log('Access denied: GCLID parameter is missing.');
+      return res.redirect("/");
+  }
 
- 
-  //   // Проверка за User-Agent
-  //   if (!(userAgent.includes("Chrome"))) {
-  //     console.log('Access denied: The browser is not Chrome.');
-  //     return res.redirect("/");
-  // }
-
-  // if (!timeCheck.isAfter(startTime) || !timeCheck.isBefore(endTime)) {
-  //   console.log("The current time is outside of the allowed interval.");
-  //   return res.redirect("/");
-  // }
-  // // Проверка за GCLID
-  // if (!gclid) {
-  //     console.log('Access denied: GCLID parameter is missing.');
-  //     return res.redirect("/");
-  // }
-
-  // // Проверка за Referrer
-  // if (!(referrer && referrer.includes("google.com"))) {
-  //     console.log('Access denied: Referrer is not google.com.');
-  //     return res.redirect("/");
-  // }
-
+    
   // Ако всички проверки минат
   console.log('All checks passed, proceeding to the page.');
   next();

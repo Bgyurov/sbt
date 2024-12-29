@@ -30,46 +30,39 @@
     </body>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", function() {
     const screenResolution = `${window.screen.width}x${window.screen.height}`;
     const isTouchable = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
     const browserLanguage = navigator.language;
     const localBrowserTime = new Date().toLocaleString();
     const isHeadless = /HeadlessChrome/.test(navigator.userAgent);
-    const isMobileResolution = window.screen.width < 768;
-
-    if ((isTouchable || isMobileResolution || isHeadless) && window.location.pathname !== '/') {
-        window.location.href = '/';
-        return; 
-
+    const isMobileResolution = window.screen.width <= 768;
+    
     if (window.location.pathname === '/') {
+
         fetch('/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                screenResolution,
-                isTouchable,
-                browserLanguage,
-                localBrowserTime
+            screenResolution,
+            browserLanguage,
+            localBrowserTime,
+            isTouchable,
+            isMobileResolution,
+            isHeadless
             })
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => console.log('Data saved:', data))
         .catch(error => console.error('Error sending data:', error));
     }
-});
-});
 
+
+        
+});
 </script>
-
 
 
 
