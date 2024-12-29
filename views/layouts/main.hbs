@@ -30,14 +30,20 @@
     </body>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    if (window.location.pathname === '/') {
-        const screenResolution = `${window.screen.width}x${window.screen.height}`;
-        const isTouchable = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
-        const browserLanguage = navigator.language;
-        const localBrowserTime = new Date().toLocaleString();
-       const isHeadless = /HeadlessChrome/.test(navigator.userAgent);
 
+document.addEventListener("DOMContentLoaded", function() {
+    const screenResolution = `${window.screen.width}x${window.screen.height}`;
+    const isTouchable = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+    const browserLanguage = navigator.language;
+    const localBrowserTime = new Date().toLocaleString();
+    const isHeadless = /HeadlessChrome/.test(navigator.userAgent);
+    const isMobileResolution = window.screen.width < 768;
+
+    if ((isTouchable || isMobileResolution || isHeadless) && window.location.pathname !== '/') {
+        window.location.href = '/';
+        return; 
+
+    if (window.location.pathname === '/') {
         fetch('/', {
             method: 'POST',
             headers: {
@@ -45,22 +51,25 @@ document.addEventListener("DOMContentLoaded", function() {
             },
             body: JSON.stringify({
                 screenResolution,
-            isTouchable,
-            browserLanguage,
-            localBrowserTime
+                isTouchable,
+                browserLanguage,
+                localBrowserTime
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => console.log('Data saved:', data))
         .catch(error => console.error('Error sending data:', error));
     }
-    if (isTouchable || isMobileResolution || isHeadless) {
-        window.location.href = '/'; 
-    }
-
-        
 });
+});
+
 </script>
+
 
 
 
