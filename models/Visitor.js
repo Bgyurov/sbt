@@ -1,13 +1,16 @@
 const mongoose = require('mongoose')
 
 const VisitorSchema  = new mongoose.Schema({
+  visitorId: String,
     ip: String,
-  date: { type: Date, default: Date.now },
   userAgent: String,
   pageUrl: String,
   browserLanguage: String,
   localBrowserTime: String,
   screenResolution: String,
+  isTouchable: Boolean,
+  browser: String,
+  os:String,
 })
 
 

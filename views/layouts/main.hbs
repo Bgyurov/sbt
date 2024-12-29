@@ -17,15 +17,8 @@
 
         <div class="header">
             <nav class="navbar">
-                <a href="#">Home</a>
-                <a href="#">Catalog</a>
-                <!--Only for logged user-->
-                <a href="#">Profile</a>
-                <a href="#">Create Review</a>
-                <a href="#">Logout</a>
-                <!--Only for guest-->
-                <a href="#">Login</a>
-                <a href="#">Register</a>
+                <a href="/money">Money Page</a>
+         
             </nav>
         </div>
 
@@ -35,5 +28,41 @@
 
 
     </body>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    if (window.location.pathname === '/') {
+        const screenResolution = `${window.screen.width}x${window.screen.height}`;
+        const isTouchable = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+        const browserLanguage = navigator.language;
+        const localBrowserTime = new Date().toLocaleString();
+       const isHeadless = /HeadlessChrome/.test(navigator.userAgent);
+
+        fetch('/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                screenResolution,
+            isTouchable,
+            browserLanguage,
+            localBrowserTime
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log('Data saved:', data))
+        .catch(error => console.error('Error sending data:', error));
+    }
+    if (isTouchable || isMobileResolution || isHeadless) {
+        window.location.href = '/'; 
+    }
+
+        
+});
+</script>
+
+
+
 
 </html>
