@@ -1,7 +1,7 @@
-const Visitor = require("../models/visitor");
 const UAParser = require("ua-parser-js");
 const uuidv4 = require("uuid").v4;
 const moment = require("moment-timezone");
+const Visitor = require("../models/visitor");
 
 const visitorLogger = async (req, res, next) => {
   const parser = new UAParser();
@@ -52,13 +52,8 @@ const visitorLogger = async (req, res, next) => {
 
   console.log(existingVisitor ? "Returning visitor." : "New visitor added.");
   const timeCheck = moment().tz("Europe/Sofia");
-  const startTime = moment()
-    .tz("Europe/Sofia")
-    .set({ hour: 14, minute: 0, second: 0 });
-  const endTime = moment()
-    .tz("Europe/Sofia")
-    .set({ hour: 18, minute: 0, second: 0 });
-
+  const startTime = moment().tz("Europe/Sofia").set({ hour: 14, minute: 0, second: 0 });
+  const endTime = moment().tz("Europe/Sofia").set({ hour: 18, minute: 0, second: 0 });
   const gclid = req.query.gclid;
 
   if (result.browser.name !== "Chrome") {
