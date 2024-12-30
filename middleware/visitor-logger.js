@@ -36,7 +36,7 @@ const visitorLogger = async (req, res, next) => {
     console.log('Real IP Address:', realIp);
   const visitorData = {
     visitorId,
-    ip: req.ip,
+    ip: realIp,
     userAgent,
     pageUrl: req.originalUrl,
     browserLanguage: req.body.browserLanguage || req.headers["accept-language"],
