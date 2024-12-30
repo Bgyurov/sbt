@@ -18,8 +18,22 @@ const visitorLogger = async (req, res, next) => {
   const userAgent = req.headers["user-agent"];
   const result = parser.setUA(userAgent).getResult();
 
-  let ip = req.headers['x-forwarded-for'] 
-  console.log('Real IP Address:', ip);
+  const forwardedIps = req.headers['x-forwarded-for'];
+    let realIp = '';
+
+    if (forwardedIps) {
+        // Вземете първия IP адрес от списъка
+        realIp = forwardedIps.split(',')[0];
+    } else {
+        // Вземете IP адреса от сокета, ако заглавието X-Forwarded-For липсва
+        realIp = req.socket.remoteAddress;
+    }
+
+    if (realIp.substr(0, 7) === "::ffff:") {
+        realIp = realIp.substr(7); // Премахнете префикса IPv6 за IPv4 адреси
+    }
+
+    console.log('Real IP Address:', realIp);
   const visitorData = {
     visitorId,
     ip: req.ip,
