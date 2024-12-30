@@ -1,6 +1,6 @@
 const UAParser = require("ua-parser-js");
 const uuidv4 = require("uuid").v4;
-const Visitor = require("../models/visitor");
+const Visitor = require("../models/Visitor");
 
 const visitorLogger = async (req, res, next) => {
   if (req.originalUrl === "/favicon.ico") return next();
