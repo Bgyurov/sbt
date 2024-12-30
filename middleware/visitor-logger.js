@@ -18,10 +18,7 @@ const visitorLogger = async (req, res, next) => {
   const userAgent = req.headers["user-agent"];
   const result = parser.setUA(userAgent).getResult();
 
-  let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-  if (ip.substr(0, 7) === "::ffff:") {
-      ip = ip.substr(7)
-  }
+  let ip = req.headers['x-forwarded-for'] 
   console.log('Real IP Address:', ip);
   const visitorData = {
     visitorId,
