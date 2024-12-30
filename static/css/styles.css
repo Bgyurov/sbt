@@ -3,4 +3,23 @@
 @import './money.css';
 
 
-
+.alert {
+    padding: 10px;
+    color: white;
+    background-color: red;
+    text-align: center;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    position: relative;
+    animation: fadeOut 5s forwards;
+  }
+  
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
