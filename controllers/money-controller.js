@@ -1,3 +1,3 @@
 exports.getMoneyPage = async (req, res) => {
-  res.render("money");
+  res.render("money" , {title: "Money Page" , isSafe: false});
 };

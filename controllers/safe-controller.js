@@ -1,5 +1,5 @@
 exports.getSafePage = (req, res) => {
-  res.render("safe");
+  res.render("safe" , {title: "Safe Page" , isSafe: true});
 };
 
 exports.getErrorPage = (req, res) => {
