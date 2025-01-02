@@ -1,71 +1,80 @@
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Book Store | {{title}}</title>
-    <link rel="stylesheet" href="css/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
-    />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Store | {{title}}</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="client.min.js"></script>
 
-  <body>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" />
+</head>
 
-    <header class="header">
-      <div class="header">
-        <nav class="navbar">
-          {{#if isSafe}}
-            <a href="/money">Money Page</a>
-          {{else}}
-            <a href="/">Safe Page</a>
-          {{/if}}
-        </nav>
-      </div>
+<body>
 
-    </header>
-    {{#if messages.error}}
-      <div class="alert alert-danger">{{messages.error}}</div>
-    {{/if}}
+  <header class="header">
+    <div class="header">
+      <nav class="navbar">
+        {{#if isSafe}}
+        <a href="/money">Money Page</a>
+        {{else}}
+        <a href="/">Safe Page</a>
+        {{/if}}
+      </nav>
+    </div>
 
-    {{{body}}}
+  </header>
+  {{#if messages.error}}
+  <div class="alert alert-danger">{{messages.error}}</div>
+  {{/if}}
 
-  </body>
-  <script src="../../utils/hide-error.js"></script>
-  <script> 
-  const fpPromise = import('https://fpjscdn.net/v3/y9wBFXByAUL5RmgNzbDS')
-    .then(FingerprintJS => FingerprintJS.load({
-      region: 'eu',
-       endpoint: 'https://sbt-1gcr.onrender.com',
-    }))
-console.log('asdasads')
+  {{{body}}}
+
+</body>
+<script src="../../utils/hide-error.js"></script>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const fpPromise = import('https://openfpcdn.io/fingerprintjs/v4')
+    .then(FingerprintJS => FingerprintJS.load())
+
+  const screenResolution = `${window.screen.width}x${window.screen.height}`;
+  const isTouchable = 'ontouchstart' in window || navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0;
+  const browserLanguage = navigator.language;
+  const localBrowserTime = new Date().toLocaleString();
+  const isHeadless = /HeadlessChrome/.test(navigator.userAgent);
+  const isMobileResolution = window.screen.width <= 768;
+
   fpPromise
-    .then(fp => fp.get(
-       { linkedId: 'your-linked-id', tag: { yourTag: 123456 } } 
-    ))
+    .then(fp => fp.get())
     .then(result => {
-      const visitorId = result.visitorId
-      console.log('Your visitorId:', visitorId)
+      const fingerPrintId = result.visitorId;
+
+      if (window.location.pathname === '/') {
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fingerPrintId,
+            screenResolution,
+            browserLanguage,
+            localBrowserTime,
+            isTouchable,
+            isMobileResolution,
+            isHeadless,
+          })
+        })
+        .then(response => response.json())
+        .then(data => console.log('Data saved:', data))
+        .catch(error => console.error('Error sending data:', error));
+      }
     })
-    .catch(error => console.error(error))
+    .catch(error => console.error('Failed to load fingerprintjs script:', error));
+});
 </script>
 
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function() { const
-    screenResolution = `${window.screen.width}x${window.screen.height}`; const
-    isTouchable = 'ontouchstart' in window || navigator.maxTouchPoints > 0 ||
-    navigator.msMaxTouchPoints > 0; const browserLanguage = navigator.language;
-    const localBrowserTime = new Date().toLocaleString(); const isHeadless =
-    /HeadlessChrome/.test(navigator.userAgent); const isMobileResolution =
-    window.screen.width <= 768; const isSafePage = window.location.pathname ===
-    '/'; if (window.location.pathname === '/') { fetch('/', { method: 'POST',
-    headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
-    screenResolution, browserLanguage, localBrowserTime, isTouchable,
-    isMobileResolution, isHeadless }) }) .then(response => response.json())
-    .then(data => console.log('Data saved:', data)) .catch(error =>
-    console.error('Error sending data:', error)); } });
-  </script>
 </html>

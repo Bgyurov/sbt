@@ -11,6 +11,7 @@ const VisitorSchema = new mongoose.Schema({
   isTouchable: Boolean,
   browser: String,
   os: String,
+  fingerPrintId: String,
 });
 
 const Visitor = mongoose.model("Visitor", VisitorSchema);

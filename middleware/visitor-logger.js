@@ -4,8 +4,8 @@ const Visitor = require("../models/Visitor");
 
 const visitorLogger = async (req, res, next) => {
   if (req.originalUrl === "/favicon.ico") return next();
- 
-  const visitorId = req.cookies["visitorId"] || req.body.fingerprint;
+
+  let visitorId = req.cookies["visitorId"] || req.body.fingerPrintId;
   if (!visitorId) {
     visitorId = uuidv4();
     res.cookie("visitorId", visitorId, {
@@ -42,6 +42,7 @@ const visitorLogger = async (req, res, next) => {
     isTouchable: req.body.isTouchable,
     browser: result.browser.name,
     os: result.os.name,
+    fingerPrintId: req.body.fingerPrintId,
   };
 
   const existingVisitor = await Visitor.findOne({ visitorId: visitorId });
