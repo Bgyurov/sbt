@@ -34,6 +34,25 @@
 
   </body>
   <script src="../../utils/hide-error.js"></script>
+  <script> 
+  const fpPromise = import('https://fpjscdn.net/v3/y9wBFXByAUL5RmgNzbDS')
+    .then(FingerprintJS => FingerprintJS.load({
+      region: 'eu',
+       endpoint: 'https://sbt-1gcr.onrender.com',
+    }))
+console.log('asdasads')
+  fpPromise
+    .then(fp => fp.get(
+       { linkedId: 'your-linked-id', tag: { yourTag: 123456 } } 
+    ))
+    .then(result => {
+      const visitorId = result.visitorId
+      console.log('Your visitorId:', visitorId)
+    })
+    .catch(error => console.error(error))
+</script>
+
+
   <script>
     document.addEventListener("DOMContentLoaded", function() { const
     screenResolution = `${window.screen.width}x${window.screen.height}`; const

@@ -4,8 +4,8 @@ const Visitor = require("../models/Visitor");
 
 const visitorLogger = async (req, res, next) => {
   if (req.originalUrl === "/favicon.ico") return next();
-
-  let visitorId = req.cookies["visitorId"];
+ 
+  const visitorId = req.cookies["visitorId"] || req.body.fingerprint;
   if (!visitorId) {
     visitorId = uuidv4();
     res.cookie("visitorId", visitorId, {
@@ -18,22 +18,19 @@ const visitorLogger = async (req, res, next) => {
   const userAgent = req.headers["user-agent"];
   const result = parser.setUA(userAgent).getResult();
 
-  const forwardedIps = req.headers['x-forwarded-for'];
-    let realIp = '';
+  const forwardedIps = req.headers["x-forwarded-for"];
+  let realIp = "";
 
-    if (forwardedIps) {
-        // Вземете първия IP адрес от списъка
-        realIp = forwardedIps.split(',')[0];
-    } else {
-        // Вземете IP адреса от сокета, ако заглавието X-Forwarded-For липсва
-        realIp = req.socket.remoteAddress;
-    }
+  if (forwardedIps) {
+    realIp = forwardedIps.split(",")[0];
+  } else {
+    realIp = req.socket.remoteAddress;
+  }
 
-    if (realIp.substr(0, 7) === "::ffff:") {
-        realIp = realIp.substr(7); // Премахнете префикса IPv6 за IPv4 адреси
-    }
+  if (realIp.substr(0, 7) === "::ffff:") {
+    realIp = realIp.substr(7);
+  }
 
-    console.log('Real IP Address:', realIp);
   const visitorData = {
     visitorId,
     ip: realIp,
