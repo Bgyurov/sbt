@@ -8,6 +8,14 @@ const moneyCloaker = (req, res, next) => {
   const gclid = req.query.gclid;
   const timeCheck = moment().tz("Europe/Sofia");
   const userData = JSON.parse(req.cookies.userData);
+  console.log(req.cookies)
+
+  if (!userData) {
+      req.flash("success" , "Enter from navigation")
+    return res.redirect('/');
+  }
+
+
 
   if (!result.browser.name.includes("Chrome")) {
     req.flash("error", "Access denied: The browser is not Chrome.");
