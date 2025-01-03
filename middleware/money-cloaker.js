@@ -29,12 +29,12 @@ const moneyCloaker = (req, res, next) => {
     return res.redirect("/");
   }
 
-  if (!isTouchable) {
+  if (isTouchable) {
     req.flash("error", "Access denied: Device is not touch-capable.");
     return res.redirect("/");
   }
 
-  if (!isMobileResolution) {
+  if (isMobileResolution) {
     req.flash(
       "error",
       "Access denied: Device does not have mobile resolution."
