@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 async function accessSafePage() {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: true, executablePath: '/snap/bin/chromium' });
   const page = await browser.newPage();
 
   // Установяване на User-Agent и Referrer, които не отговарят на условията за "money page"

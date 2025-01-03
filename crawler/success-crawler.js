@@ -1,7 +1,8 @@
+
 const puppeteer = require("puppeteer");
 
 async function accessMoneyPage() {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: false, executablePath: '/snap/bin/chromium' });
   const page = await browser.newPage();
 
   await page.setUserAgent(

@@ -14,6 +14,12 @@ const visitorLogger = async (req, res, next) => {
     });
   }
 
+  res.cookie('userData', JSON.stringify({
+    isTouchable: req.body.isTouchable,
+    isHeadless: req.body.isHeadless,
+    isMobileResolution: req.body.isMobileResolution
+  }), { httpOnly: true });
+
   const parser = new UAParser();
   const userAgent = req.headers["user-agent"];
   const result = parser.setUA(userAgent).getResult();
