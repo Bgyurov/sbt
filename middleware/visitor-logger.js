@@ -7,9 +7,7 @@ const visitorLogger = async (req, res, next) => {
 
   const fingerPrintId = req.body.fingerPrintId;
 
-  if (!fingerPrintId) {
-    return res.status(400).json({ error: 'Fingerprint ID is required' });
-  }
+  
 
   let visitorId = req.cookies["visitorId"];
   if (!visitorId) {
