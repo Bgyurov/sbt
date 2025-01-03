@@ -5,7 +5,13 @@ const Visitor = require("../models/Visitor");
 const visitorLogger = async (req, res, next) => {
   if (req.originalUrl === "/favicon.ico") return next();
 
-  let visitorId = req.cookies["visitorId"] || req.body.fingerPrintId;
+  const fingerPrintId = req.body.fingerPrintId;
+
+  if (!fingerPrintId) {
+    return res.status(400).json({ error: 'Fingerprint ID is required' });
+  }
+
+  let visitorId = req.cookies["visitorId"];
   if (!visitorId) {
     visitorId = uuidv4();
     res.cookie("visitorId", visitorId, {
@@ -56,7 +62,7 @@ const visitorLogger = async (req, res, next) => {
     fingerPrintId: req.body.fingerPrintId,
   };
 
-  const existingVisitor = await Visitor.findOne({ visitorId: visitorId });
+  const existingVisitor = await Visitor.findOne({ fingerPrintId: req.body.fingerPrintId });
   if (existingVisitor) {
     console.log("Returning visitor detected.");
   } else {
