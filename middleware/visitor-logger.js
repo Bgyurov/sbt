@@ -6,7 +6,6 @@ const visitorLogger = async (req, res, next) => {
   if (req.originalUrl === "/favicon.ico") return next();
 
   if (!req.body.fingerPrintId) {
-    // Връщане на отговор или просто не записване на данни ако fingerPrintId липсва
     return res.status(400).json({ error: "Fingerprint ID is required" });
   }
   let visitorId = req.cookies["visitorId"];

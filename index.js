@@ -17,7 +17,7 @@ app.use(
   })
 );
 app.use(flash());
-app.set('trust proxy', true);  // Доверява се на всички прокси
+app.set('trust proxy', true); 
 app.set('trust proxy', 'loopback');
 app.use(cookieParser());
 app.use(express.static("static"));
