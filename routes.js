@@ -8,7 +8,7 @@ router.get("/", homeController.getSafePage);
 
 router.post("/", visitorLogger, homeController.getSafePage);
 
-router.get("/money", visitorLogger, moneyCloaker,moneyController.getMoneyPage);
+router.get("/money", moneyCloaker,moneyController.getMoneyPage);
 
 router.use("*", homeController.getErrorPage);
 

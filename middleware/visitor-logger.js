@@ -5,10 +5,10 @@ const Visitor = require("../models/Visitor");
 const visitorLogger = async (req, res, next) => {
   if (req.originalUrl === "/favicon.ico") return next();
 
-  const fingerPrintId = req.body.fingerPrintId;
-
-  
-
+  if (!req.body.fingerPrintId) {
+    // Връщане на отговор или просто не записване на данни ако fingerPrintId липсва
+    return res.status(400).json({ error: "Fingerprint ID is required" });
+  }
   let visitorId = req.cookies["visitorId"];
   if (!visitorId) {
     visitorId = uuidv4();
@@ -18,15 +18,15 @@ const visitorLogger = async (req, res, next) => {
     });
   }
 
-  res.cookie(
-    "userData",
-    JSON.stringify({
-      isTouchable: req.body.isTouchable,
-      isHeadless: req.body.isHeadless,
-      isMobileResolution: req.body.isMobileResolution,
-    }),
-    { httpOnly: true }
-  );
+  const userData = {
+    isTouchable: req.body.isTouchable,
+    isHeadless: req.body.isHeadless,
+    isMobileResolution: req.body.isMobileResolution
+  };
+  
+  res.cookie("userData", JSON.stringify(userData), {
+    httpOnly: true,
+  });
 
   const parser = new UAParser();
   const userAgent = req.headers["user-agent"];
@@ -60,7 +60,9 @@ const visitorLogger = async (req, res, next) => {
     fingerPrintId: req.body.fingerPrintId,
   };
 
-  const existingVisitor = await Visitor.findOne({ fingerPrintId: req.body.fingerPrintId });
+  const existingVisitor = await Visitor.findOne({
+    fingerPrintId: req.body.fingerPrintId,
+  });
   if (existingVisitor) {
     console.log("Returning visitor detected.");
   } else {
