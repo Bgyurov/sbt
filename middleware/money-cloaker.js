@@ -9,8 +9,6 @@ const moneyCloaker = (req, res, next) => {
   const timeCheck = moment().tz("Europe/Sofia");
   const { isTouchable, isHeadless, isMobileResolution } = req.cookies.userData;
 
-  const userData = JSON.parse(req.cookies.userData);
-  console.log(userData);
   if (!result.browser.name.includes("Chrome")) {
     req.flash("error", "Access denied: The browser is not Chrome.");
     return res.redirect("/");

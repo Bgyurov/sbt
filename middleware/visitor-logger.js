@@ -14,11 +14,15 @@ const visitorLogger = async (req, res, next) => {
     });
   }
 
-  res.cookie('userData', JSON.stringify({
-    isTouchable: req.body.isTouchable,
-    isHeadless: req.body.isHeadless,
-    isMobileResolution: req.body.isMobileResolution
-  }), { httpOnly: true });
+  res.cookie(
+    "userData",
+    JSON.stringify({
+      isTouchable: req.body.isTouchable,
+      isHeadless: req.body.isHeadless,
+      isMobileResolution: req.body.isMobileResolution,
+    }),
+    { httpOnly: true }
+  );
 
   const parser = new UAParser();
   const userAgent = req.headers["user-agent"];
@@ -44,8 +48,9 @@ const visitorLogger = async (req, res, next) => {
     pageUrl: req.originalUrl,
     browserLanguage: req.body.browserLanguage || req.headers["accept-language"],
     localBrowserTime: req.body.localBrowserTime || new Date().toLocaleString(),
-  screenResolution: req.body.screenResolution || "unknown",
-  isTouchable: req.body.isTouchable !== undefined ? req.body.isTouchable : false,
+    screenResolution: req.body.screenResolution || "unknown",
+    isTouchable:
+      req.body.isTouchable !== undefined ? req.body.isTouchable : false,
     browser: result.browser.name,
     os: result.os.name,
     fingerPrintId: req.body.fingerPrintId,
