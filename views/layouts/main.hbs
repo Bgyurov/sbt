@@ -33,7 +33,6 @@
 
 </body>
 <script src="../../utils/hide-error.js"></script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
@@ -46,7 +45,6 @@
         const localBrowserTime = new Date().toLocaleString();
         const isHeadless = /HeadlessChrome/.test(navigator.userAgent);
         const isMobileResolution = window.screen.width <= 768;
-
 
         fpPromise
             .then(fp => fp.get())

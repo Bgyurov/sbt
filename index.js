@@ -17,15 +17,13 @@ app.use(
   })
 );
 app.use(flash());
-app.set('trust proxy', true); 
-app.set('trust proxy', 'loopback');
+app.set("trust proxy", true);
+app.set("trust proxy", "loopback");
 app.use(cookieParser());
 app.use(express.static("static"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(router);
-
-
 
 initDatabase()
   .then(() =>

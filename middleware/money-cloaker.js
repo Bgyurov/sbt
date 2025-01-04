@@ -7,9 +7,9 @@ const moneyCloaker = (req, res, next) => {
   const result = parser.setUA(userAgent).getResult();
   const gclid = req.query.gclid;
   const timeCheck = moment().tz("Europe/Sofia");
-  
+
   if (!req.cookies.userData) {
-    return res.redirect('/');
+    return res.redirect("/");
   }
 
   let userData;
@@ -30,7 +30,10 @@ const moneyCloaker = (req, res, next) => {
   }
 
   if (userData.isMobileResolution) {
-    req.flash("error", "Access denied: Device does not have mobile resolution.");
+    req.flash(
+      "error",
+      "Access denied: Device does not have mobile resolution."
+    );
     return res.redirect("/");
   }
 
@@ -43,7 +46,6 @@ const moneyCloaker = (req, res, next) => {
     req.flash("error", "The current time is outside of the allowed interval.");
     return res.redirect("/");
   }
-
 
   if (!gclid) {
     req.flash("error", "Access denied: GCLID parameter is missing.");

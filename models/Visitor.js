@@ -9,6 +9,8 @@ const VisitorSchema = new mongoose.Schema({
   localBrowserTime: String,
   screenResolution: String,
   isTouchable: Boolean,
+  isMobileResolution: Boolean,
+  isHeadless: Boolean,
   browser: String,
   os: String,
   fingerPrintId: String,

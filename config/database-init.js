@@ -2,7 +2,6 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const dbUri = process.env.MONGOD_CONNECT_URI;
 
-
 async function initDatabase() {
   mongoose.set("strictQuery", false);
 

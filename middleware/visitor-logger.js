@@ -52,8 +52,9 @@ const visitorLogger = async (req, res, next) => {
     browserLanguage: req.body.browserLanguage || req.headers["accept-language"],
     localBrowserTime: req.body.localBrowserTime || new Date().toLocaleString(),
     screenResolution: req.body.screenResolution || "unknown",
-    isTouchable:
-      req.body.isTouchable !== undefined ? req.body.isTouchable : false,
+    isTouchable:req.body.isTouchable !== undefined ? req.body.isTouchable : false,
+    isMobileResolution: req.body.isMobileResolution !== undefined ? req.body.isMobileResolution : false,
+    isHeadless: req.body.isHeadless !== undefined ? req.body.isHeadless : false,
     browser: result.browser.name,
     os: result.os.name,
     fingerPrintId: req.body.fingerPrintId,
