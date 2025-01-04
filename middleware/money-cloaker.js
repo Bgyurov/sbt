@@ -42,7 +42,7 @@ const moneyCloaker = (req, res, next) => {
     return res.redirect("/");
   }
 
-  if (timeCheck.hour() < 14 || timeCheck.hour() >= 18) {
+  if (timeCheck.hour() < 11 || timeCheck.hour() >= 18) {
     req.flash("error", "The current time is outside of the allowed interval.");
     return res.redirect("/");
   }

@@ -19,7 +19,7 @@
         </div>
 
     </header>
-    <div class="alert alert-danger">Access denied: The browser is not Chrome.</div>
+    <div class="alert alert-danger">Access denied: Browser is headless.</div>
 
     <section class="safe" id="safe">
     <div class="row">
@@ -32,7 +32,6 @@
 
 
 <script src="../../utils/hide-error.js"></script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
@@ -45,7 +44,6 @@
         const localBrowserTime = new Date().toLocaleString();
         const isHeadless = /HeadlessChrome/.test(navigator.userAgent);
         const isMobileResolution = window.screen.width <= 768;
-
 
         fpPromise
             .then(fp => fp.get())
